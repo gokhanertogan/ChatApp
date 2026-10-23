@@ -15,7 +15,6 @@ namespace IdentityService.Api.Infrastructure.Repositories
 
         public async Task AddAsync(User user)
         {
-            user.Id = _context.Users.Max(x => x.Id) + 1; 
             await _context.Users.AddAsync(user);
         }
 

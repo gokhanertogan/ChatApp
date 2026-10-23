@@ -1,4 +1,5 @@
 ﻿using IdentityService.Api.Extensions;
+using System;
 using System.Threading.Tasks;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
@@ -14,9 +15,9 @@ namespace IdentityService.Api.Helpers
     {
         private readonly IOoredooClient _ooredooClient; 
 
-        public SmsHelper()
+        public SmsHelper(IOoredooClient ooredooClient)
         {
-
+            _ooredooClient = ooredooClient;
         }
 
         private SmsResponseModel sendSms(SmsModel model)
@@ -42,12 +43,12 @@ namespace IdentityService.Api.Helpers
         /// <returns></returns>
         private SmsResponseModel UseTwilioClient(SmsModel model)
         {
-            const string accountSid = "YOUR_TWILIO_ACCOUNT_SID";
-            const string authToken = "YOUR_TWILIO_AUTH_TOKEN";
+            var accountSid = Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
+            var authToken = Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
             TwilioClient.Init(accountSid, authToken);
             var result = MessageResource.Create(
                 body: model.Text,
-                from: new Twilio.Types.PhoneNumber("+442033221529"),
+                from: new Twilio.Types.PhoneNumber(Environment.GetEnvironmentVariable("TWILIO_FROM_NUMBER")),
                 to: new Twilio.Types.PhoneNumber(model.To)
             );
             return new SmsResponseModel() { IsError = result.ErrorCode.GetValueOrDefault(0) > 0, ErrorMessage = result.ErrorMessage };

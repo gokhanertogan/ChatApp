@@ -19,7 +19,7 @@ namespace IdentityService.Api.Extensions
         private readonly IGeneralConfigs _generalConfigs;
         private readonly HttpClient _httpClient;
 
-        OoredooClient(IGeneralConfigs generalConfigs)
+        public OoredooClient(IGeneralConfigs generalConfigs)
         {
             _httpClient = new HttpClient();
             _generalConfigs = generalConfigs;

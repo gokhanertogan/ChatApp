@@ -40,6 +40,8 @@ namespace IdentityService.Api
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddHttpContextAccessor();
+            services.AddScoped<IConvertionService, ConvertionHelper>();
             services.AddScoped<IRequestHelper, RequestHelper>();
             services.AddScoped<ISmsHelper, SmsHelper>();
             services.AddScoped<IOoredooClient, OoredooClient>();
